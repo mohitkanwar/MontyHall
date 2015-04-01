@@ -1,24 +1,36 @@
 .closed
-{   background-color: red;
+{   
+       background: url("./images/MontyHallSmall.png") repeat scroll -148px -48px rgba(0, 0, 0, 0);
     display: inline-block;
-    height: 50px;
-    width: 50px;
+    height: 442px;
+    width: 263px;
 }
 
 .opened
-{   background-color: white;
+{   background: url("./images/MontyHallSmall.png") repeat scroll -666px -51px rgba(0, 0, 0, 0);
     display: inline-block;
-    height: 50px;
-    width: 50px;
+    height: 442px;
+    width: 263px;
 }
 
 .selected
-{   background-color: blue;
+{  	border: 5px solid red;
+       background: url("./images/MontyHallSmall.png") repeat scroll -148px -48px rgba(0, 0, 0, 0);
     display: inline-block;
-    height: 50px;
-    width: 50px;
-}
+    height: 442px;
+    width: 263px;
 
+}
+.prize
+{    background: url("./images/MontyHallSmall.png") repeat scroll -410px -51px rgba(0, 0, 0, 0);
+    display: inline-block;
+    height: 442px;
+    width: 263px;
+}
 .hidden {
     visibility: hidden;
+}
+
+#msgBox{
+border: 5px solid blue;
 }

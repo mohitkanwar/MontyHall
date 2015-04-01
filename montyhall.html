@@ -14,9 +14,13 @@ SPOILER ::: The prize is behind gate: <span id="spoiler"><button onclick="spoile
 <span class="door closed first"></span>
 <span class="door closed second"></span>
 <span class="door closed third"></span>
+
 </div>
-<button onclick="reduceChoice()" class="hidden" id="next">Remove an invalid door</button>
+<div id="msgBox"></div>
+<button onclick="reduceChoice()" class="" id="next">Remove an invalid door</button>
 <button onclick="checkResults()" class="hidden" id="checkResults">See Results</button>
+<button onclick="automate()"> Automate 1000 times </button>
+<span><table border=1 id="resulttable"><tr><th>sl.no</th><th>initial selected door</th><th>switched</th><th>winning door</th><th>won</th></tr></table></span>
 <script src="script.js"></script>
 </body>
 </html>
