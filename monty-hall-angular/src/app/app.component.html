@@ -1,0 +1,40 @@
+<app-header></app-header>
+<app-introduction></app-introduction>
+
+SPOILER ::: The prize is behind gate: <span *ngIf="showPrizeDoor">{{prizedDoor}}</span><button (click)="toggleAnswerDisplay()">Click to see/hide prize door</button>
+
+<button (click)="reset()">Reset</button>
+
+<div class=doors>
+  <span class="door first" (click)="selectDoor(1)" [ngClass]=
+  "{
+   'selected' : selectedDoor == 1,
+   'closed' : !openDoors.includes(1),
+   'opened' : openDoors.includes(1),
+   'prize' : openDoors.includes(1) && prizedDoor == 1
+  }"></span>
+  <span class="door  second" (click)="selectDoor(2)" [ngClass]=
+  "{
+    'selected' : selectedDoor == 2,
+    'closed' : !openDoors.includes(2),
+    'opened' : openDoors.includes(2),
+    'prize' : openDoors.includes(2) && prizedDoor == 2
+   }"></span>
+  <span class="door  third" (click)="selectDoor(3)" [ngClass]=
+  "{
+    'selected' : selectedDoor == 3,
+    'closed' : !openDoors.includes(3),
+    'opened' : openDoors.includes(3),
+    'prize' : openDoors.includes(3) && prizedDoor == 3
+   }"></span>
+  
+  </div>
+
+  <button *ngIf="openDoors.length === 0 && selectedDoor !== 0" (click)="openInvalidDoor()">Open an invalid door</button>
+  <button *ngIf="openDoors.length !== 0 && selectedDoor !== 0" (click)="switchSelectedDoor()">Switch Selected Door</button>
+  <button *ngIf="openDoors.length === 1 " (click)="seeResults()">See Results</button>
+
+  <p>{{result}}</p>
+<!-- <router-outlet></router-outlet> -->
+
+<button (click)="automate()">Automate and show results</button>
