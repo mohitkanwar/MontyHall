@@ -1,32 +1,34 @@
-.closed
-{   
-       background: url("../assets/images/MontyHallSmall.png") repeat scroll -148px -48px rgba(0, 0, 0, 0);
-    display: inline-block;
-    height: 442px;
-    width: 263px;
-}
 
-.opened
-{   background: url("../assets/images/MontyHallSmall.png") repeat scroll -666px -51px rgba(0, 0, 0, 0);
-    display: inline-block;
-    height: 442px;
-    width: 263px;
-}
+.image-container {
+    display: flex;
+    padding: 10px;
+    background: aliceblue;
+    margin: 10px;
+  }
+  
+  .image-container img {
+    flex: 0 0 30%;
+    max-width: 30%;
+    height: auto;
+  }
+  
+  @media (max-width: 768px) {
+    .image-container {
+        display: flex;
+        padding: 10px;
+        background: aliceblue;
+        margin: 10px;
+    }
+  
+    .image-container img {
+      flex: 0 0 100%;
+      margin-bottom: 10px;
+    }
+  }
 
-.selected
-{  	border: 5px solid red;
-       background: url("../assets/images/MontyHallSmall.png") repeat scroll -148px -48px rgba(0, 0, 0, 0);
-    display: inline-block;
-    height: 442px;
-    width: 263px;
 
-}
-.prize
-{    background: url("../assets/images/MontyHallSmall.png") repeat scroll -410px -51px rgba(0, 0, 0, 0);
-    display: inline-block;
-    height: 442px;
-    width: 263px;
-}
+
+
 .hidden {
     visibility: hidden;
 }
