@@ -7,6 +7,9 @@ import { HeaderComponent } from './header/header.component';
 import { IntroductionComponent } from './introduction/introduction.component';
 import { GameComponent } from './game/game.component';
 import { DoorComponent } from './door/door.component';
+import { SpoilerComponent } from './spoiler/spoiler.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PopupComponent } from './popup/popup.component';
 
 @NgModule({
   declarations: [
@@ -14,11 +17,14 @@ import { DoorComponent } from './door/door.component';
     HeaderComponent,
     IntroductionComponent,
     GameComponent,
-    DoorComponent
+    DoorComponent,
+    SpoilerComponent,
+    PopupComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

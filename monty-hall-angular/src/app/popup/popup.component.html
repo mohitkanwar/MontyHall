@@ -1,0 +1,7 @@
+<div class="popup" (mousemove)="onMouseMove($event)" (mouseup)="onMouseUp()" [ngClass]="{'hidden': !isVisible}">
+    <div #popupContent class="popup-content" (mousedown)="onMouseDown($event)">
+      <h3>{{ title }}</h3>
+      <p>{{ message }}</p>
+      <button (click)="closePopup()" class="button">Close</button>
+    </div>
+  </div>

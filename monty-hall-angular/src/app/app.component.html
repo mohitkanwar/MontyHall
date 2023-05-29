@@ -1,22 +1,47 @@
 <app-header></app-header>
 <app-introduction></app-introduction>
 
-SPOILER ::: The prize is behind gate: <span *ngIf="showPrizeDoor">{{prizedDoor}}</span><button (click)="toggleAnswerDisplay()">Click to see/hide prize door</button>
-
-<button (click)="reset()">Reset</button>
-
-<div class="image-container" >
+<div class="row">
+  <div class="column-60">The probability of prize was selected while placing it behind the doors. and hence it will not change with any action that takes place after it. Click this button to reveal the winning door.</div>
+  <div class="column-40">
+    <app-spoiler [prizedDoor]="prizedDoor + 1"></app-spoiler>
+  </div>
+</div>
+<hr>
+<div class="row" >
+  <div class="column-60" [innerHTML]="stateMessageMapping[state].message"></div>
+  <div class="column-40"><button *ngIf="stateMessageMapping[state].actionName" (click)="stateMessageMapping[state].action()" class="button">{{stateMessageMapping[state].actionName}}</button>
+    <button *ngIf="stateMessageMapping[state].action2Name" (click)="stateMessageMapping[state].action2()" class="button">{{stateMessageMapping[state].action2Name}}</button></div>
+  
+</div>
+<div class="image-container" #messageContainer>
     <app-door 
       [door] = "door" 
       (selectionEvent)="onDoorSelection($event)"
     *ngFor="let door of doors"></app-door>
 </div>
-
-  <button  (click)="openInvalidDoor()">Open an invalid door</button>
-  <button  (click)="switchSelectedDoor()">Switch Selected Door</button>
-  <button (click)="seeResults()">See Results</button>
-
   <p>{{result}}</p>
 <!-- <router-outlet></router-outlet> -->
-
-<button (click)="automate()">Automate and show results</button>
+<hr>
+<button (click)="automate()" class="button">Automate and show results</button>
+<div *ngIf="summary" ><strong>{{summary}}</strong></div>
+<table *ngIf = "rowData.length > 0" class="beautiful-table" #summary>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Initially selected door</th>
+      <th>Winning Door</th>
+      <th>Switched?</th>
+      <th>Result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of rowData; index as i">
+      <td>{{ i + 1 }}</td>
+      <td>{{ row.initiallySelectedDoor }}</td>
+      <td>{{ row.winningDoor }}</td>
+      <td>{{ row.switched }}</td>
+      <td>{{ row.result }}</td>
+    </tr>
+  </tbody>
+</table>

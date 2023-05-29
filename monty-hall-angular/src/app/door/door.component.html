@@ -1,6 +1,10 @@
-<img [src]="door.image" [ngClass]=
+<div class="container" (click)="toggleSelection()">
+    <img [src]="door.image" [ngClass]=
     "{
      'selected' : door.isSelected
     }"
-    (click)="toggleSelection()"
+    
+    class="door item"
     >
+    <span class="item">gate {{door.position + 1}}</span>
+</div>
