@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Door } from './door';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 class Row {
   initiallySelectedDoor!: number;
@@ -11,7 +12,15 @@ class Row {
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  animations: [
+    trigger('messageAnimation', [
+      transition('* => *', [
+        style({ opacity: 0 }), // Initial state
+        animate('500ms', style({ opacity: 1 })) // Transition to visible state
+      ])
+    ])
+  ]
 })
 export class AppComponent implements OnInit{
   
@@ -34,6 +43,7 @@ export class AppComponent implements OnInit{
   messageContainer!: ElementRef;
   @ViewChild('summary')
   summaryElement!: ElementRef;
+  isLoading = false;
   ngOnInit(): void {
     this.reset();
   }
@@ -73,7 +83,7 @@ export class AppComponent implements OnInit{
         }
       });
       this.state = 'door-selected';
-      this.stateMessageMapping['door-selected'].message = 'Great! you have selected the door number <b>' + (this.selectedDoor + 1)+ '</b>. Going by the probability, the chances of having the prize behind this door is 1/3, and the probability of having the prize behind other two doors combined is 2/3. <br> Now, that you have selected a door, let\'s open a door which doesn\'t have prize.';
+      this.stateMessageMapping['door-selected'].message = 'Great! You have chosen door number <b>' + (this.selectedDoor + 1)+ '</b>. Based on probability, the chances of the prize being behind this door is 1/3, while the combined probability of the prize being behind the other two doors is 2/3. <br> Now, let\'s proceed to open a door that does not have the prize.';
     }
     this.scrollToElement();
   }
@@ -149,14 +159,16 @@ export class AppComponent implements OnInit{
       'invalid-door-opened' :
       { 
         message: `<p>
-        Here is the counter-intuitive thing. Now, that you see on screen are three doors.
+        Here's the counter-intuitive aspect of the situation: On the screen, you see three doors.
        </p>
         <ol>
-         <li>A door that you selected (door number: {{selectedDoor}}) that may or may not have the prize</li>
-         <li>A door that is opened, and doesn't have the prize ( door number :{{invalidOpenedDoorNumber}})</li>
-         <li>The remaining door that you have not selected, and may or may not have the prize</li>
+         <li>The door you initially selected, which may or may not have the prize.</li>
+         <li>The door that has been opened, revealing that it doesn't have the prize.</li>
+         <li>The remaining door that you haven't selected, which may or may not have the prize.</li>
        </ol>
-       <p>At this point it looks that the two closed doors have equal probability of having the prize money and hence 50%. However, the probability was decided during keeping the prizes (and that is still not changed). We just have one additional information that the opened door doesn't have the prize. It means, the door that we selected had 1/3 chances of winning, and 2/3 chances of losing. In the chances when our selcted door was loosing, the other two doors were winning. But now, all that probability has come to the one unopened door. So probability wise, it is better to switch the doors at this stage. Would you like to switch?</p>
+       <p>At this point, it may seem like the two closed doors have an equal probability of containing the prize, making it a 50% chance for each door. However, it's important to note that the probability was determined when the prizes were placed behind the doors, and that hasn't changed. The additional information we now have is that the opened door doesn't have the prize.</p>
+       <p>This means that the door you initially selected had a 1/3 chance of winning and a 2/3 chance of losing. In the scenarios where your chosen door was losing, the other two doors were winning. But now, all of that probability has shifted to the one unopened door. Therefore, from a probability standpoint, it is better to switch doors at this stage. </p>
+       <p>Would you like to switch?</p>
      `,
         action: this.switchSelectedDoor,
         actionName: 'Switch your selected door',
@@ -193,6 +205,7 @@ export class AppComponent implements OnInit{
 
 
   automate() {
+    this.isLoading = true;
     this.rowData = [];
     let totalWins = 0;
     for (let i=0; i<10000; i++) {
@@ -200,10 +213,6 @@ export class AppComponent implements OnInit{
       let selectedDoor = Math.floor(Math.random() * 3);
        this.onDoorSelection({'door-position' : selectedDoor});
        let won = this.selectedDoor == this.prizedDoor;
-       console.log ("Prize door : " + this.prizedDoor 
-                  + " :: selected door : " + selectedDoor 
-                  + " :: switched? : false"
-                  + " :: won ? :" + won);
       let game:Row = new Row();
       game.initiallySelectedDoor = selectedDoor;
       game.result = won? 'won' : 'lost';
@@ -213,11 +222,12 @@ export class AppComponent implements OnInit{
       if (won) {
         totalWins ++;
       }
+      
     }
-    console.log("Without switching - you won " + totalWins + " games out of total 10000 games")
-    this.summary = "Without switching - you won " + totalWins + " games out of total 10000 games";
-    this.summaryElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
-
+    this.isLoading = false;
+    this.summary = "Without switching - you won " + totalWins + " games out of total 10000 games.";
+    this.summary += "i.e. you won" + (totalWins/100) + "% of times";
+    
   }
 
   popupClosed(event : {}) {
