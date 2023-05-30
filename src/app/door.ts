@@ -11,8 +11,8 @@ export class Door {
         this.state = 'open';
         
         this.image = this.isWinning ? 
-                        '../assets/images/open-win.png'
-                        : '../assets/images/open-lose.png';
+                        'assets/images/open-win.png'
+                        : 'assets/images/open-lose.png';
     }
 
     close() {
