@@ -19,10 +19,10 @@ jobs:
           node-version: 14
 
       - name: Install dependencies
-        run: cd monty-hall-angular && npm install
+        run: npm install
 
       - name: Build for production
-        run: cd monty-hall-angular && npm run build -- --prod --base-href "https://mohitkanwar.github.io/MontyHall/"
+        run: npm run build -- --prod --base-href "https://mohitkanwar.github.io/MontyHall/"
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.0
