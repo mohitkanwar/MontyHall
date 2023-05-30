@@ -1,0 +1,4 @@
+<button class="toggle-button" (click)="toggleContent()">{{ showContent ? 'SPOILER ::: Hide the winning door' : 'SPOILER ::: Show the winning door' }}</button>
+  <div class="content" [@toggleContent]="showContent ? 'show' : 'hide'">
+         The prize is behind gate: {{prizedDoor}}
+</div>

@@ -1,0 +1,25 @@
+.selected {  	
+    border: 2px solid brown;
+    box-shadow: inset 0 0 10px brown;
+    border-image-slice: 1;
+    border-radius: 10px;
+}
+.door {
+    max-width: 30%;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px; /* Set a height to the container for demonstration purposes */
+    border: 1px solid #ccc; /* Optional: Add a border to visualize the container */
+  }
+  
+  .item {
+    /* Styles for your items */
+    margin: 10px;
+    padding: 10px;
+    background-color: #f0f0f0;
+  }
+  

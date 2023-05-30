@@ -1,0 +1,26 @@
+.wiki-paragraph {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+  }
+  
+  .wiki-paragraph a {
+    color: #0066cc;
+    text-decoration: none;
+  }
+  
+  .wiki-paragraph a:hover {
+    text-decoration: underline;
+  }
+  
+  .wiki-paragraph p {
+    margin-bottom: 10px;
+  }
+  
+  .wiki-paragraph img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
