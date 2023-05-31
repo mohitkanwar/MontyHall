@@ -17,6 +17,6 @@ export class Door {
 
     close() {
         this.state = 'close';
-        this.image='../assets/images/closed.png';
+        this.image='assets/images/closed.png';
     }
 }
