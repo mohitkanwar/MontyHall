@@ -2,9 +2,9 @@
 <app-introduction></app-introduction>
 
 <div class="row">
-  <div class="column-60">The probability of the prize being selected was determined when it was placed behind the doors. Therefore, it does not change regardless of any actions that take place afterwards. Please click this button to reveal the winning door.</div>
+  <div class="column-60">The probability of the prize being selected was determined when it was placed behind the gates. Therefore, it does not change regardless of any actions that take place afterwards. Please click this button to reveal the winning gate.</div>
   <div class="column-40">
-    <app-spoiler [prizedDoor]="prizedDoor + 1"></app-spoiler>
+    <app-spoiler [prizedDoor]="prizedGate + 1"></app-spoiler>
   </div>
 </div>
 <hr>
@@ -16,24 +16,24 @@
 </div>
 <div class="image-container" #messageContainer>
     <app-door 
-      [door] = "door" 
-      (selectionEvent)="onDoorSelection($event)"
-    *ngFor="let door of doors"></app-door>
+      [door] = "gate" 
+      (selectionEvent)="onGateSelection($event)"
+    *ngFor="let gate of gates"></app-door>
 </div>
   <p>{{result}}</p>
 <!-- <router-outlet></router-outlet> -->
 <hr>
-<p>The concept of probability becomes evident when we repeatedly perform a task. Let's automate the aforementioned scenario and simulate it 10,000 times without switching doors to observe the results.</p>
+<p>The concept of probability becomes evident when we repeatedly perform a task. Let's automate the aforementioned scenario and simulate it 10,000 times without switching gates to observe the results.</p>
 <div class="loader" *ngIf="isLoading"></div><button (click)="automate()" class="button" *ngIf="!isLoading">Automate and show results</button>
 <div >
 <div *ngIf="summary" ><strong>{{summary}}</strong></div>
 
-<table *ngIf = "rowData.length > 0" class="beautiful-table" #summary>
+<table *ngIf = "rowData.length > 0 && !isLoading" class="beautiful-table" #summary>
   <thead>
     <tr>
       <th>#</th>
-      <th>Initially selected door</th>
-      <th>Winning Door</th>
+      <th>Initially selected Gate</th>
+      <th>Winning Gate</th>
       <th>Switched?</th>
       <th>Result</th>
     </tr>
@@ -41,8 +41,8 @@
   <tbody>
     <tr *ngFor="let row of rowData; index as i">
       <td>{{ i + 1 }}</td>
-      <td>{{ row.initiallySelectedDoor }}</td>
-      <td>{{ row.winningDoor }}</td>
+      <td>{{ row.initiallySelectedGate }}</td>
+      <td>{{ row.winningGate }}</td>
       <td>{{ row.switched }}</td>
       <td>{{ row.result }}</td>
     </tr>

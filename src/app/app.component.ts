@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Door } from './door';
+import { Door as Gate } from './door';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 class Row {
-  initiallySelectedDoor!: number;
-  winningDoor!: number;
+  initiallySelectedGate!: number;
+  winningGate!: number;
   switched!: boolean;
   result!: string;
 };
@@ -25,17 +25,17 @@ class Row {
 export class AppComponent implements OnInit{
   
   title = 'monty-hall-angular';
-  prizedDoor = Math.floor(Math.random() * 3);
-  showPrizeDoor = false;
-  doors:Door[] = []
+  prizedGate = Math.floor(Math.random() * 3);
+  showPrizeGate = false;
+  gates:Gate[] = []
   result = ''
-  openAllDoors = false;
-  selectedDoor: number = -1;
+  openAllGates = false;
+  selectedGate: number = -1;
   state =''
   summary: string = '';
   errorMessage = ''
-  invalidDoorOpened = false;
-  invalidOpenedDoorNumber = -1;
+  invalidGateOpened = false;
+  invalidOpenedGateNumber = -1;
   message = '';
   action = null;
   rowData :Row[]= []
@@ -48,89 +48,89 @@ export class AppComponent implements OnInit{
     this.reset();
   }
   toggleAnswerDisplay() {
-    console.log(this.prizedDoor);
-    this.showPrizeDoor = !this.showPrizeDoor;
+    console.log(this.prizedGate);
+    this.showPrizeGate = !this.showPrizeGate;
   }
 
   reset = () => {
-    this.prizedDoor = Math.floor(Math.random() * 3);
-    this.showPrizeDoor = false;
-    this.openAllDoors = false;
+    this.prizedGate = Math.floor(Math.random() * 3);
+    this.showPrizeGate = false;
+    this.openAllGates = false;
     this.result = '';
-    this.doors = [];
-    this.selectedDoor = -1;
-    this.invalidDoorOpened = false;
-    this.invalidOpenedDoorNumber = -1;
+    this.gates = [];
+    this.selectedGate = -1;
+    this.invalidGateOpened = false;
+    this.invalidOpenedGateNumber = -1;
     for (let i=0; i<3; i++) {
-      let door = new Door();
-        door.close();
-        door.isSelected = false;
-        door.isWinning = i == this.prizedDoor;
-        door.position = i;
-        this.doors.push(door);
+      let gate = new Gate();
+        gate.close();
+        gate.isSelected = false;
+        gate.isWinning = i == this.prizedGate;
+        gate.position = i;
+        this.gates.push(gate);
     }
     this.state = 'initialized'
   }
-  onDoorSelection(event : {'door-position' : number}){
-    if (!this.openAllDoors) {
+  onGateSelection(event : {'door-position' : number}){
+    if (!this.openAllGates) {
       console.log("user selected " + event['door-position'])
-      this.doors.forEach ((door) => {
-        if (door.position !== event['door-position']) {
-          door.isSelected = false;
+      this.gates.forEach ((gate) => {
+        if (gate.position !== event['door-position']) {
+          gate.isSelected = false;
         } else {
-          door.isSelected = true;
-          this.selectedDoor = event['door-position'];
+          gate.isSelected = true;
+          this.selectedGate = event['door-position'];
         }
       });
-      this.state = 'door-selected';
-      this.stateMessageMapping['door-selected'].message = 'Great! You have chosen door number <b>' + (this.selectedDoor + 1)+ '</b>. Based on probability, the chances of the prize being behind this door is 1/3, while the combined probability of the prize being behind the other two doors is 2/3. <br> Now, let\'s proceed to open a door that does not have the prize.';
+      this.state = 'gate-selected';
+      this.stateMessageMapping['gate-selected'].message = 'Great! You have chosen gate number <b>' + (this.selectedGate + 1)+ '</b>. Based on probability, the chances of the prize being behind this gate is 1/3, while the combined probability of the prize being behind the other two gates is 2/3. <br> Now, let\'s proceed to open a gate that does not have the prize.';
     }
     this.scrollToElement();
   }
 
-  openInvalidDoor = () =>  {
-    console.log("opening an invalid door")
-    if (this.doors.filter(door => door.isSelected).length === 0) {
-      console.log("Please select a door before opening an invalid one!");
+  openInvalidGate = () =>  {
+    console.log("opening an invalid gate")
+    if (this.gates.filter(gate => gate.isSelected).length === 0) {
+      console.log("Please select a gate before opening an invalid one!");
       return;
     }
 
-    if (this.doors.filter(door => door.state == 'open').length > 0) {
-      console.log("Unable to open more doors as per the rules configured!");
+    if (this.gates.filter(gate => gate.state == 'open').length > 0) {
+      console.log("Unable to open more gates as per the rules configured!");
       return;
     }
-    let doorsArray = this.doors
+    let gatesArray = this.gates
     .filter(item => !item.isWinning)
     .filter(item => !item.isSelected);
-    const doorToBeOpened: Door = doorsArray[Math.floor(Math.random() * doorsArray.length)];
-    console.log ("open door :" + doorToBeOpened.position);
-    this.doors[doorToBeOpened.position].open();
-    this.invalidDoorOpened = true;
-    this.invalidOpenedDoorNumber = doorToBeOpened.position;
-    this.state = 'invalid-door-opened';
+    const gateToBeOpened: Gate = gatesArray[Math.floor(Math.random() * gatesArray.length)];
+    console.log ("open gate :" + gateToBeOpened.position);
+    this.gates[gateToBeOpened.position].open();
+    this.invalidGateOpened = true;
+    this.invalidOpenedGateNumber = gateToBeOpened.position;
+    this.state = 'invalid-gate-opened';
     this.scrollToElement();
   }
-  switchSelectedDoor = () => {
+  switchSelectedGate = () => {
 
-    let selectedDoor = this.doors
+    let selectedgate = this.gates
     .filter(item => item.state !== 'open')
     .filter(item => !item.isSelected)[0];
     
-    this.doors.forEach((door) => door.isSelected = false);
-    selectedDoor.isSelected = true;
-    this.state = 'switched-selected-doors';
+    this.gates.forEach((gate) => gate.isSelected = false);
+    selectedgate.isSelected = true;
+    this.state = 'switched-selected-gates';
     this.scrollToElement();
   }
   seeResults = ()  => {
-    this.openAllDoors = true;
+    this.openAllGates = true;
     let won = false;
-    this.doors.forEach((door) => {
-      if (door.isSelected && door.isWinning) {
+    this.gates.forEach((gate) => {
+      if (gate.isSelected && gate.isWinning) {
         console.log ("Congrats you won!")
         this.state = 'win'
         won = true;
       }
-      door.open();
+      gate.open();
     });
     
     if (!won) {
@@ -142,40 +142,40 @@ export class AppComponent implements OnInit{
   stateMessageMapping :{[state : string]: { message: string; action: () => void; actionName: string; action2: () => void; action2Name: string;}} = {
     'initialized' : 
       { 
-        message:'Go ahead and select a door by clicking on it',
+        message:'Go ahead and select a gate by clicking on it',
         action: () => {},
         actionName: '',
         action2: () => {},
         action2Name: ''
       } ,
-      'door-selected' :
+      'gate-selected' :
       { 
         message: '',
-        action: this.openInvalidDoor,
-        actionName: 'Open an Invalid Door',
+        action: this.openInvalidGate,
+        actionName: 'Open an Invalid gate',
         action2: () => {},
         action2Name: ''
       },
-      'invalid-door-opened' :
+      'invalid-gate-opened' :
       { 
         message: `<p>
-        Here's the counter-intuitive aspect of the situation: On the screen, you see three doors.
+        Here's the counter-intuitive aspect of the situation: On the screen, you see three gates.
        </p>
         <ol>
-         <li>The door you initially selected, which may or may not have the prize.</li>
-         <li>The door that has been opened, revealing that it doesn't have the prize.</li>
-         <li>The remaining door that you haven't selected, which may or may not have the prize.</li>
+         <li>The gate you initially selected, which may or may not have the prize.</li>
+         <li>The gate that has been opened, revealing that it doesn't have the prize.</li>
+         <li>The remaining gate that you haven't selected, which may or may not have the prize.</li>
        </ol>
-       <p>At this point, it may seem like the two closed doors have an equal probability of containing the prize, making it a 50% chance for each door. However, it's important to note that the probability was determined when the prizes were placed behind the doors, and that hasn't changed. The additional information we now have is that the opened door doesn't have the prize.</p>
-       <p>This means that the door you initially selected had a 1/3 chance of winning and a 2/3 chance of losing. In the scenarios where your chosen door was losing, the other two doors were winning. But now, all of that probability has shifted to the one unopened door. Therefore, from a probability standpoint, it is better to switch doors at this stage. </p>
+       <p>At this point, it may seem like the two closed gates have an equal probability of containing the prize, making it a 50% chance for each gate. However, it's important to note that the probability was determined when the prizes were placed behind the gates, and that hasn't changed. The additional information we now have is that the opened gate doesn't have the prize.</p>
+       <p>This means that the gate you initially selected had a 1/3 chance of winning and a 2/3 chance of losing. In the scenarios where your chosen gate was losing, the other two gates were winning. But now, all of that probability has shifted to the one unopened gate. Therefore, from a probability standpoint, it is better to switch gates at this stage. </p>
        <p>Would you like to switch?</p>
      `,
-        action: this.switchSelectedDoor,
-        actionName: 'Switch your selected door',
+        action: this.switchSelectedGate,
+        actionName: 'Switch your selected gate',
         action2: this.seeResults,
         action2Name: 'Nah, I trust my intuitions'
       },
-      'switched-selected-doors' : { 
+      'switched-selected-gates' : { 
         message: 'Great! you have opted for higher probability leaving behind your intuitions.',
         action: this.seeResults,
         actionName: 'Show Results',
@@ -208,16 +208,17 @@ export class AppComponent implements OnInit{
     this.isLoading = true;
     this.rowData = [];
     let totalWins = 0;
-    for (let i=0; i<10000; i++) {
+    let totalGames = 1000;
+    for (let i=0; i<totalGames; i++) {
       this.reset();
-      let selectedDoor = Math.floor(Math.random() * 3);
-       this.onDoorSelection({'door-position' : selectedDoor});
-       let won = this.selectedDoor == this.prizedDoor;
+      let selectedGate = Math.floor(Math.random() * 3);
+       this.onGateSelection({'door-position' : selectedGate});
+       let won = this.selectedGate == this.prizedGate;
       let game:Row = new Row();
-      game.initiallySelectedDoor = selectedDoor;
+      game.initiallySelectedGate = selectedGate + 1;
       game.result = won? 'won' : 'lost';
       game.switched = false;
-      game.winningDoor = this.prizedDoor;
+      game.winningGate = this.prizedGate + 1;
       this.rowData.push(game);
       if (won) {
         totalWins ++;
@@ -225,8 +226,8 @@ export class AppComponent implements OnInit{
       
     }
     this.isLoading = false;
-    this.summary = "Without switching - you won " + totalWins + " games out of total 10000 games.";
-    this.summary += "i.e. you won" + (totalWins/100) + "% of times";
+    this.summary = "Without switching - you won " + totalWins + " games out of total "+totalGames+" games.";
+    this.summary += "i.e. you won" + (totalWins*100/totalGames) + "% of times";
     
   }
 
